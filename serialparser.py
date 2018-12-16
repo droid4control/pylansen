@@ -7,6 +7,8 @@ import sys
 import binascii
 import serial
 
+import argparse
+
 import logging
 log = logging.getLogger(__name__)
 logging.basicConfig(stream=sys.stderr, level=logging.WARNING)
@@ -22,11 +24,13 @@ if __name__ == '__main__':
         except Exception as ex:
             log.error("got exception %s", ex)
 
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--port', type=str, help='Serial device')
+    parser.add_argument('-b', '--baudrate', default=9600, type=int, help='Baudrate')
+    args, unknown = parser.parse_known_args()
+
     try:
-        ser = serial.Serial('/dev/ttyUSB0', 9600)
-        ser.bytesize = serial.EIGHTBITS
-        ser.parity = serial.PARITY_NONE
-        ser.stopbits = serial.STOPBITS_ONE
+        ser = serial.Serial(port=args.port, baudrate=args.baudrate)
     except serial.serialutil.SerialException as ex:
         log.critical("got exception %s", ex)
         sys.exit(1)
