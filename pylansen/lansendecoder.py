@@ -30,7 +30,7 @@ class LansenDecoder(object):
 
     def _add_byte(self, b):
         if b == b'\x7e':
-            if self._buffer != None:
+            if self._buffer != None and len(self._buffer):
                 log.debug("end marker found")
                 self._process_buffer()
             else:
