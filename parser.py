@@ -8,7 +8,7 @@ import binascii
 
 import logging
 log = logging.getLogger(__name__)
-logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+logging.basicConfig(stream=sys.stderr, level=logging.WARNING)
 
 if __name__ == '__main__':
     def cb(buf, rssi, **kwargs):
