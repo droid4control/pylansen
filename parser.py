@@ -9,6 +9,9 @@ from pylansen.enapimbusdata import ENAPIMbusData
 
 import sys
 import binascii
+import serial
+
+import argparse
 
 import logging
 log = logging.getLogger(__name__)
@@ -38,7 +41,22 @@ if __name__ == '__main__':
         else:
             print("got unknown data")
 
-    l = LansenDecoder(sys.stdin.buffer, cb, testarg='test')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--port', type=str, help='Serial device')
+    parser.add_argument('-b', '--baudrate', default=9600, type=int, help='Baudrate')
+    args, unknown = parser.parse_known_args()
+
+    if args.port:
+        try:
+            fd = serial.Serial(port=args.port, baudrate=args.baudrate)
+        except serial.serialutil.SerialException as ex:
+            log.critical("got exception %s", ex)
+            sys.exit(1)
+    else:
+        fd = sys.stdin.buffer
+
+    l = LansenDecoder(fd, cb, testarg='test')
+
     try:
         l.run()
     except (KeyboardInterrupt, SystemExit):
