@@ -1,6 +1,9 @@
-import sys
-import crcmod
+from .enapifactory import ENAPIFactory
+from .exceptions import ENAPIException
 
+import sys
+import time
+import crcmod
 import binascii
 
 import logging
@@ -14,6 +17,7 @@ class LansenDecoder(object):
         self._cb = cb
         self._cb_args = kwargs
         self._buffer = None
+        self._timestamp = None
         self._decode_7d = False
 
     def run(self):
@@ -38,6 +42,7 @@ class LansenDecoder(object):
             else:
                 log.debug("start marker found")
                 self._buffer = bytearray()
+                self._timestamp = time.time()
         else:
             if self._buffer != None:
                 if self._decode_7d:
@@ -65,26 +70,18 @@ class LansenDecoder(object):
     def _process_buffer(self):
         log.info("_process_buffer()")
         log.debug("_buffer: %s", binascii.hexlify(self._buffer))
-        if len(self._buffer) < 4:
-            log.error("buffer too short")
-            return self.reset()
-        if self._buffer[0] != 0x06:
-            log.error("Lansen MBUS data field missing")
-            return self.reset()
-        if len(self._buffer) - 2 != self._buffer[1]:
-            log.error("buffer len != complete len")
-            return self.reset()
-        if crcmod.predefined.mkCrcFun("crc-16-en-13757")(self._buffer[:-2]) != int.from_bytes(self._buffer[-2:], byteorder='big'):
-            log.error("CRC error")
-            return self.reset()
-        self._buffer[2] = self._buffer[2] - 1   # remove RSSI byte from L-field
-        self._run_cb(self._buffer[2:-3], self._buffer[-3])
+        try:
+            enapi = ENAPIFactory.factory(self._buffer)
+            log.debug("ENAPI data: %s: %s", enapi, vars(enapi))
+            self._run_cb(enapi)
+        except ENAPIException as ex:
+            log.warning("frame process error: %s", ex)
         self.reset()
 
-    def _run_cb(self, msg, rssi):
+    def _run_cb(self, enapi):
         log.info("run callback function")
         if self._cb:
-            self._cb(msg, rssi, **self._cb_args)
+            self._cb(self._timestamp, enapi, **self._cb_args)
 
 
 if __name__ == '__main__':
@@ -92,8 +89,8 @@ if __name__ == '__main__':
 
     logging.basicConfig(stream=sys.stderr, level=logging.INFO)
 
-    def cb(buf, rssi, **kwargs):
-        print('cb({:s}, {:d}, {:s})'.format(str(binascii.hexlify(buf)), rssi, str(kwargs)))
+    def cb(timestamp, enapi, **kwargs):
+        print('cb({:d}, {:s}, {:s})'.format(int(timestamp), str(enapi), str(kwargs)))
 
     l = LansenDecoder(sys.stdin.buffer, cb, testarg='test')
     try:
