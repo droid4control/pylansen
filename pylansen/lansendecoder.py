@@ -23,7 +23,7 @@ class LansenDecoder(object):
             if not c:
                 log.info("read: EOF")
                 return
-            log.error("read: %s", binascii.hexlify(c))
+            log.debug("read: %s", binascii.hexlify(c))
             self._add_byte(c)
 
     def reset(self):
