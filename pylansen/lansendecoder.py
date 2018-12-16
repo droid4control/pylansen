@@ -64,6 +64,7 @@ class LansenDecoder(object):
 
     def _process_buffer(self):
         log.info("_process_buffer()")
+        log.debug("_buffer: %s", binascii.hexlify(self._buffer))
         if len(self._buffer) < 4:
             log.error("buffer too short")
             return self.reset()
