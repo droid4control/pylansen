@@ -1,6 +1,8 @@
 import sys
 import crcmod
 
+import binascii
+
 import logging
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
@@ -21,7 +23,7 @@ class LansenDecoder(object):
             if not c:
                 log.info("read: EOF")
                 return
-            log.debug("read: %s", c)
+            log.error("read: %s", binascii.hexlify(c))
             self._add_byte(c)
 
     def reset(self):
