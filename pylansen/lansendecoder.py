@@ -43,10 +43,10 @@ class LansenDecoder(object):
                 if self._decode_7d:
                     self._decode_7d = False
                     if b == b'\x5e':
-                        log.debug("0x7e -> buffer", b)
+                        log.debug("0x7e -> buffer")
                         self._buffer += b'\x7e'
                     elif b == b'\x5d':
-                        log.debug("0x7d -> buffer", b)
+                        log.debug("0x7d -> buffer")
                         self._buffer += b'\x7d'
                     else:
                         # 7D followed by unknown byte
