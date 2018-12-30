@@ -9,8 +9,8 @@ log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
 class Lansen2MBus(object):
-    def __init__(self):
-        self._mbus = MBus(host="localhost", port=8888)
+    def __init__(self, libpath=None):
+        self._mbus = MBus(host="localhost", port=8888, libpath=libpath)
         self._mbus_frame = MBusFrame()
 
     def getxml(self, buf):
