@@ -19,17 +19,6 @@ class ENAPIMbusData(ENAPICommandWithSvn):
         self.MbusData[0] -= 1 # remove RSSI byte from L-field
         self.RSSI = int(self.data[-3])
 
-        # FIXME: if medium == 0x32 (Unidirectional Repeater), remove 3 unknown bytes and fix frame length
-        if len(self.MbusData) > 9 and self.MbusData[9] == 0x32:
-            log.debug("MbusData(%d): %s", len(self.MbusData), binascii.hexlify(self.MbusData))
-            # remove unknown data
-            self._unknown_data = self.MbusData[-3:]
-            del self.MbusData[-3:]
-            # fix L-field
-            self.MbusData[0] = len(self.MbusData)
-            log.debug("MbusData(%d): %s", len(self.MbusData), binascii.hexlify(self.MbusData))
-            log.debug("remaining(%d): %s", len(self._unknown_data), binascii.hexlify(self._unknown_data))
-
         # FIXME: this frame comes from repeater? some unknown data needs to be removed
         if self.MbusData[0] < len(self.MbusData):
             log.info("L-field=%d but data len=%d, fixing..", self.MbusData[0], len(self.MbusData))
