@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 from pylansen.lansendecoder import LansenDecoder
 from pylansen.lansen2mbus import Lansen2MBus
