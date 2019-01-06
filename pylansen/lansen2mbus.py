@@ -1,5 +1,7 @@
 from ctypes import c_char_p, cast, sizeof, addressof, memmove
 
+import binascii
+
 from mbus.MBus import MBus, MBusFrame
 from mbus.MBusDataVariableHeader import MBusDataVariableHeader
 from mbus.MBusLowLevel import MBUS_FRAME_LONG_START, MBUS_CONTROL_MASK_RSP_UD, MBUS_CONTROL_INFO_RESP_VARIABLE, MBUS_FRAME_STOP, MBUS_FRAME_TYPE_LONG
@@ -17,7 +19,8 @@ class Lansen2MBus(object):
         _l_field = buf[0]
         log.debug("L-field: %d", _l_field)
         if _l_field != len(buf):
-            raise Exception("L-field != length of frame")
+            log.debug("buf: %s", binascii.hexlify(buf))
+            raise Exception("L-field %d != length of frame %d", _l_field, len(buf))
 
         if buf[10] != 0x7a:
             raise Exception("only short frame is supported")
