@@ -12,8 +12,8 @@ class ENAPICommand(ENAPI):
 
     def __init__(self, data):
         super().__init__(data)
-        self.CommandType = int(data[0])
-        self.Len = int(data[1])
+        self.CommandType = ENAPICommand.get_command_type(data)
+        self.Len = ENAPICommand.get_len(data)
 
     @property
     def CommandType(self):
@@ -35,5 +35,13 @@ class ENAPICommand(ENAPI):
     def is_frame_complete(self):
         log.debug("is_frame_complete %d - 2 ? %d", len(self.data), self.Len)
         return len(self.data) - 2 == self.Len
+
+    @staticmethod
+    def get_command_type(buf):
+        return int(buf[0])
+
+    @staticmethod
+    def get_len(buf):
+        return int(buf[1])
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
