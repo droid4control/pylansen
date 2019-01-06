@@ -35,3 +35,5 @@ class ENAPICommand(ENAPI):
     def is_frame_complete(self):
         log.debug("is_frame_complete %d - 2 ? %d", len(self.data), self.Len)
         return len(self.data) - 2 == self.Len
+
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

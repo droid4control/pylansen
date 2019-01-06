@@ -97,3 +97,5 @@ if __name__ == '__main__':
         l.run()
     except (KeyboardInterrupt, SystemExit) as ex:
         log.info("got exception %s", ex)
+
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

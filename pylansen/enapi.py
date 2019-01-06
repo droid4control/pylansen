@@ -36,3 +36,5 @@ class ENAPI(object):
     @property
     def is_frame_len_possible(self):
         return len(self.data) >= self.min_frame_len and len(self.data) <= self.max_frame_len
+
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

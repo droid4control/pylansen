@@ -9,3 +9,5 @@ class ENAPICrcErrorException(ENAPIException):
 
 class ENAPICommandTypeNotImplementedException(ENAPIException):
     """ CommandType not implemented """
+
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

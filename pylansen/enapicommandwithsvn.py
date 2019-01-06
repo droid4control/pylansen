@@ -24,3 +24,5 @@ class ENAPICommandWithSvn(ENAPICommand):
     @Svn.setter
     def Svn(self, value):
         self._Svn = value
+
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

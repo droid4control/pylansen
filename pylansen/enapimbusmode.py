@@ -52,3 +52,5 @@ class ENAPIMbusMode(ENAPICommand):
     @OutputFrameFormat.setter
     def OutputFrameFormat(self, value):
         self._OutputFrameFormat = value
+
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

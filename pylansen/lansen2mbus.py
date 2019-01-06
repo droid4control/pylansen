@@ -65,3 +65,5 @@ class Lansen2MBus(object):
         xml_result = self._mbus._libmbus.frame_data_xml(mbus_frame_data)
         xml = cast(xml_result, c_char_p).value.decode('ISO-8859-1')
         return xml
+
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

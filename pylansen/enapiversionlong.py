@@ -33,3 +33,5 @@ class ENAPIVersionLong(ENAPICommandWithSvn):
     @Minor.setter
     def Minor(self, value):
         self._Minor = value
+
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

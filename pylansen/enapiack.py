@@ -14,3 +14,5 @@ class ENAPIAck(ENAPICommandWithSvn):
         if not self.is_frame_complete:
             log.debug("incomplete frame: %s", vars(self))
             raise ENAPILenException("data frame is not complete")
+
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

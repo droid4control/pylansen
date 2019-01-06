@@ -27,3 +27,5 @@ class ENAPIFactory(object):
             return ENAPIMbusMode(data)
 
         raise ENAPICommandTypeNotImplementedException("Unknown CommandType {:d}".format(enapi.CommandType))
+
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

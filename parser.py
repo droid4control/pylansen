@@ -61,3 +61,5 @@ if __name__ == '__main__':
         l.run()
     except (KeyboardInterrupt, SystemExit):
         print("Quitting")
+
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

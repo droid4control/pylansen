@@ -32,3 +32,5 @@ class ENAPIMbusData(ENAPICommandWithSvn):
     @RSSI.setter
     def RSSI(self, value):
         self._RSSI = value
+
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
