@@ -11,20 +11,20 @@ log.addHandler(logging.NullHandler())
 
 class ENAPIFactory(object):
     @staticmethod
-    def factory(data):
-        enapi_command_type = ENAPICommand.get_command_type(data)
+    def factory(buf):
+        enapi_command_type = ENAPICommand.get_command_type(buf)
         if (enapi_command_type == ENAPICommand.ENAPI_VERSION_LONG):
             log.debug("found ENAPICommand ENAPI_VERSION_LONG")
-            return ENAPIVersionLong(data)
+            return ENAPIVersionLong(buf)
         if (enapi_command_type == ENAPICommand.ENAPI_MBUS_DATA):
             log.debug("found ENAPICommand ENAPI_MBUS_DATA")
-            return ENAPIMbusData(data)
+            return ENAPIMbusData(buf)
         if (enapi_command_type == ENAPICommand.ENAPI_ACK):
             log.debug("found ENAPICommand ENAPI_ACK")
-            return ENAPIAck(data)
+            return ENAPIAck(buf)
         if (enapi_command_type == ENAPICommand.ENAPI_MBUS_MODE):
             log.debug("found ENAPICommand ENAPI_MBUS_MODE")
-            return ENAPIMbusMode(data)
+            return ENAPIMbusMode(buf)
 
         raise ENAPICommandTypeNotImplementedException("Unknown CommandType {:d}".format(enapi_command_type))
 

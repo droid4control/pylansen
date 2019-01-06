@@ -8,8 +8,8 @@ log.addHandler(logging.NullHandler())
 class ENAPIMbusData(ENAPICommandWithSvn):
     MIN_FARME_LEN = 4
 
-    def __init__(self, data):
-        super().__init__(data)
+    def __init__(self, buf):
+        super().__init__(buf)
         if not self.is_frame_complete:
             log.debug("incomplete frame: %s", vars(self))
             raise ENAPILenException("data frame is not complete")

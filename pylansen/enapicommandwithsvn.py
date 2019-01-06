@@ -8,8 +8,8 @@ log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
 class ENAPICommandWithSvn(ENAPICommand):
-    def __init__(self, data):
-        super().__init__(data)
+    def __init__(self, buf):
+        super().__init__(buf)
         self.Svn = int.from_bytes(self.data[-2:], byteorder='big')
         if not self.is_frame_complete:
             log.debug("incomplete frame: %s", vars(self))

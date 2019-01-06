@@ -10,10 +10,10 @@ class ENAPICommand(ENAPI):
     ENAPI_ACK = 0x11
     ENAPI_MBUS_MODE = 0x14
 
-    def __init__(self, data):
-        super().__init__(data)
-        self.CommandType = ENAPICommand.get_command_type(data)
-        self.Len = ENAPICommand.get_len(data)
+    def __init__(self, buf):
+        super().__init__(buf)
+        self.CommandType = ENAPICommand.get_command_type(buf)
+        self.Len = ENAPICommand.get_len(buf)
 
     @property
     def CommandType(self):

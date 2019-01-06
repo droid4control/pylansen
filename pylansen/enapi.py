@@ -16,13 +16,13 @@ class ENAPI(object):
     def max_frame_len(self):
         return self.__class__.MAX_FARME_LEN
 
-    def __init__(self, data):
-        self.data = data
-        if len(data) < self.min_frame_len:
-            log.debug("too short frame: %d < %d: %s -> %s", len(data), self.min_frame_len, data, vars(self))
+    def __init__(self, buf):
+        self.data = buf
+        if len(buf) < self.min_frame_len:
+            log.debug("too short frame: %d < %d: %s -> %s", len(buf), self.min_frame_len, buf, vars(self))
             raise ENAPILenException("data frame is too short")
-        if len(data) > self.max_frame_len:
-            log.debug("too long frame: %d > %d: %s -> %s", len(data), self.max_frame_len, data, vars(self))
+        if len(buf) > self.max_frame_len:
+            log.debug("too long frame: %d > %d: %s -> %s", len(buf), self.max_frame_len, buf, vars(self))
             raise ENAPILenException("data frame is too long")
 
     @property
@@ -32,6 +32,14 @@ class ENAPI(object):
     @data.setter
     def data(self, value):
         self._data = value
+
+    @property
+    def buf(self):
+        return self._buf
+
+    @buf.setter
+    def buf(self, value):
+        self._buf = value
 
     @property
     def is_frame_len_possible(self):
