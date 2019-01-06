@@ -14,6 +14,8 @@ class ENAPICommand(ENAPI):
         super().__init__(buf)
         self.CommandType = ENAPICommand.get_command_type(buf)
         self.Len = ENAPICommand.get_len(buf)
+        log.debug("CommandType=%d, Len=%d", self.CommandType, self.Len)
+        self._copy_buf_to_data(self.Len + 2)
 
     @property
     def CommandType(self):

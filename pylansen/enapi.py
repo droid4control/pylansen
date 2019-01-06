@@ -1,5 +1,7 @@
 from .exceptions import ENAPILenException, ENAPICommandTypeNotImplementedException
 
+import binascii
+
 import logging
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
@@ -17,13 +19,24 @@ class ENAPI(object):
         return self.__class__.MAX_FARME_LEN
 
     def __init__(self, buf):
-        self.data = buf
+        self._buf = buf
         if len(buf) < self.min_frame_len:
             log.debug("too short frame: %d < %d: %s -> %s", len(buf), self.min_frame_len, buf, vars(self))
             raise ENAPILenException("data frame is too short")
         if len(buf) > self.max_frame_len:
             log.debug("too long frame: %d > %d: %s -> %s", len(buf), self.max_frame_len, buf, vars(self))
             raise ENAPILenException("data frame is too long")
+        self.data = None
+
+    def _copy_buf_to_data(self, l):
+        if l > len(self.buf):
+            log.warning("buf len = %d, need to get %s", len(self.buf), l)
+            raise ENAPILenException("data buffer is too short")
+        log.debug("buf(%d): %s", len(self.buf), binascii.hexlify(self.buf))
+        self.data = self.buf[:l]
+        log.debug("data(%d): %s", len(self.data), binascii.hexlify(self.data))
+        del self.buf[0:l]
+        log.debug("remainig buf(%d): %s", len(self.buf), binascii.hexlify(self.buf))
 
     @property
     def data(self):

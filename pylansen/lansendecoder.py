@@ -69,13 +69,15 @@ class LansenDecoder(object):
 
     def _process_buffer(self):
         log.info("_process_buffer()")
-        log.debug("_buffer: %s", binascii.hexlify(self._buffer))
-        try:
-            enapi = ENAPIFactory.factory(self._buffer)
-            log.debug("ENAPI data: %s: %s", enapi, vars(enapi))
-            self._run_cb(enapi)
-        except ENAPIException as ex:
-            log.warning("frame process error: %s", ex)
+        while self._buffer:
+            log.debug("_buffer: %s", binascii.hexlify(self._buffer))
+            try:
+                enapi = ENAPIFactory.factory(self._buffer)
+                log.debug("ENAPI data: %s: %s", enapi, vars(enapi))
+                self._run_cb(enapi)
+            except ENAPIException as ex:
+                log.warning("frame process error: %s", ex)
+                break
         self.reset()
 
     def _run_cb(self, enapi):
